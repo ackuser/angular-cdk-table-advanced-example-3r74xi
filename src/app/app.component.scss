@@ -1,0 +1,249 @@
+:host {
+  width: 100%;
+}
+/* Add application styles & imports to this file! */
+$cdk-header-row-height: 56px;
+$cdk-row-height: 48px;
+$cdk-row-horizontal-padding: 24px;
+
+%header-cell {
+  color: rgba(119, 118, 118, 0.7);
+  font-weight: 300;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+}
+[hidden] {
+  display: none !important;
+}
+/**
+ * Flex-based table structure
+ */
+
+cdk-table {
+  display: block;
+}
+
+cdk-header-row {
+  min-height: $cdk-header-row-height;
+
+  &.sticky {
+    position: sticky;
+    top: 50px;
+    background: #ffffff;
+    margin-bottom: 1rem;
+  }
+}
+
+cdk-row,
+cdk-footer-row {
+  min-height: $cdk-row-height;
+}
+
+cdk-row,
+cdk-header-row,
+cdk-footer-row {
+  display: flex;
+  // Define a border style, but then widths default to 3px. Reset them to 0px except the bottom
+  // which should be 1px;
+  border-width: 0;
+  // border-bottom-width: 1px;
+  border-style: solid;
+  align-items: center;
+  box-sizing: border-box;
+
+  // Workaround for https://goo.gl/pFmjJD in IE 11. Adds a pseudo
+  // element that will stretch the row the correct height. See:
+  // https://connect.microsoft.com/IE/feedback/details/802625
+  &::after {
+    display: inline-block;
+    min-height: inherit;
+    content: "";
+  }
+}
+
+cdk-header-row:not(:last-of-type),
+tr.cdk-header-row:not(:last-of-type) {
+  cdk-header-cell,
+  th.cdk-header-cell {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  }
+}
+
+cdk-header-row:not(.sticky):last-of-type,
+tr.cdk-header-row:not(.sticky):last-of-type {
+  border-bottom: 2px solid rgba(0, 0, 0, 0.3);
+}
+
+// Note: we use `first-of-type`/`last-of-type` here in order to prevent extra
+// elements like ripples or badges from throwing off the layout (see #11165).
+cdk-cell:first-of-type,
+cdk-header-cell:first-of-type,
+cdk-footer-cell:first-of-type,
+td.cdk-cell:first-of-type,
+td.cdk-header-cell:first-of-type,
+td.cdk-footer-cell:first-of-type {
+  padding-left: $cdk-row-horizontal-padding;
+
+  [dir="rtl"] & {
+    padding-left: 0;
+    padding-right: $cdk-row-horizontal-padding;
+  }
+}
+
+cdk-cell:last-of-type,
+cdk-header-cell:last-of-type,
+cdk-footer-cell:last-of-type,
+td.cdk-cell:last-of-type,
+td.cdk-header-cell:last-of-type,
+td.cdk-footer-cell:last-of-type {
+  padding-right: $cdk-row-horizontal-padding;
+
+  [dir="rtl"] & {
+    padding-right: 0;
+    padding-left: $cdk-row-horizontal-padding;
+  }
+}
+
+cdk-cell,
+cdk-header-cell,
+cdk-footer-cell {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  // overflow   : hidden;
+  word-wrap: break-word;
+  min-height: inherit;
+  padding: 0 1rem;
+}
+
+cdk-footer-cell,
+td.cdk-footer-cell {
+  border-top: 1px #dadada solid;
+}
+
+cdk-header-cell {
+  @extend %header-cell;
+}
+
+/**
+ * Native HTML table structure
+ */
+
+table.cdk-table {
+  border-spacing: 0;
+
+  td[rowspan] {
+    vertical-align: middle;
+  }
+
+  td,
+  th {
+    align-items: center;
+    overflow: hidden;
+    word-wrap: break-word;
+    min-height: inherit;
+    padding: 0 0.5rem;
+  }
+
+  td,
+  th {
+    vertical-align: middle;
+  }
+
+  th {
+    @extend %header-cell;
+  }
+}
+
+tr.cdk-row,
+tr.cdk-footer-row {
+  height: $cdk-row-height;
+}
+
+tr.cdk-header-row {
+  height: $cdk-header-row-height;
+}
+
+// th.cdk-header-cell,
+// td.cdk-cell,
+// td.cdk-footer-cell {
+//     padding: 0;
+//     border-bottom-width: 1px;
+//     border-bottom-style: solid;
+// }
+// Note: we use `first-of-type`/`last-of-type` here in order to prevent extra
+// elements like ripples or badges from throwing off the layout (see #11165).
+th.cdk-header-cell:first-of-type,
+td.cdk-cell:first-of-type,
+td.cdk-footer-cell:first-of-type {
+  padding-left: $cdk-row-horizontal-padding;
+
+  [dir="rtl"] & {
+    padding-left: 0;
+    padding-right: $cdk-row-horizontal-padding;
+  }
+}
+
+th.cdk-header-cell:last-of-type,
+td.cdk-cell:last-of-type,
+td.cdk-footer-cell:last-of-type {
+  padding-right: $cdk-row-horizontal-padding;
+
+  [dir="rtl"] & {
+    padding-right: 0;
+    padding-left: $cdk-row-horizontal-padding;
+  }
+}
+
+/**
+TABLE HELPERS
+**/
+th,
+cdk-header-cell {
+  &.hide-border-bottom {
+    border-bottom: none;
+  }
+
+  &.show-right-border {
+    position: relative;
+
+    &::after {
+      --after-el-height: 40%;
+      content: "";
+      position: absolute;
+      box-shadow: inset 0px 4px 0px 0px rgba(255, 255, 255, 0.5),
+        inset 0px -4px 0px 0px rgba(255, 255, 255, 0.5);
+      width: 1px;
+      height: var(--after-el-height);
+      right: 0;
+      top: calc(50% - calc(var(--after-el-height) / 2));
+      background: rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  &.show-left-border {
+    position: relative;
+
+    &::before {
+      --after-el-height: 40%;
+      content: "";
+      position: absolute;
+      box-shadow: inset 0px 4px 0px 0px rgba(255, 255, 255, 0.5),
+        inset 0px -4px 0px 0px rgba(255, 255, 255, 0.5);
+      width: 1px;
+      height: var(--after-el-height);
+      left: 0;
+      top: calc(50% - calc(var(--after-el-height) / 2));
+      background: rgba(0, 0, 0, 0.3);
+    }
+  }
+}
+
+.mat-sort-header-button {
+  text-transform: inherit;
+}
+.cdk-column-id,
+.cdk-column-email,
+.cdk-column-fullName {
+  justify-content: flex-end;
+}

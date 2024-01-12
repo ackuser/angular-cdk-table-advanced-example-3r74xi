@@ -1,0 +1,56 @@
+<table cdk-table [dataSource]="users" matSort>
+	<ng-container cdkColumnDef="id">
+		<cdk-header-cell *cdkHeaderCellDef mat-sort-header>id</cdk-header-cell>
+		<cdk-cell *cdkCellDef="let row"> {{row.id}} </cdk-cell>
+	</ng-container>
+
+	<ng-container cdkColumnDef="fullName">
+		<cdk-header-cell *cdkHeaderCellDef>fullName</cdk-header-cell>
+		<cdk-cell *cdkCellDef="let row">
+			<div [innerHTML]="row.fullName | highlight: userQuery.filterValues.fullName">{{row.fullName}}</div>
+		</cdk-cell>
+	</ng-container>
+
+	<ng-container cdkColumnDef="email">
+		<cdk-header-cell *cdkHeaderCellDef>email</cdk-header-cell>
+		<cdk-cell *cdkCellDef="let row">
+			<div [innerHTML]="row.email | highlight: userQuery.filterValues.email">{{row.email}}</div>
+		</cdk-cell>
+
+	</ng-container>
+	<ng-container cdkColumnDef="website">
+		<cdk-header-cell *cdkHeaderCellDef>website</cdk-header-cell>
+		<cdk-cell *cdkCellDef="let row">
+			<div [innerHTML]="row.website | highlight: userQuery.filterValues.website">{{row.website}}</div>
+		</cdk-cell>
+	</ng-container>
+
+	<ng-container cdkColumnDef="nodata">
+		<cdk-footer-cell *cdkFooterCellDef [attr.colspan]="columnsToDisplay.length" style="justify-content: center;">No
+			Data
+			Available</cdk-footer-cell>
+	</ng-container>
+
+	<cdk-header-row *cdkHeaderRowDef="columnsToDisplay"></cdk-header-row>
+	<cdk-row @rowAnimation *cdkRowDef="let element; columns: columnsToDisplay;"></cdk-row>
+
+
+	<cdk-footer-row [hidden]="users && users.filteredData.length > 0" *cdkFooterRowDef="['nodata']">
+	</cdk-footer-row>
+</table>
+
+<app-paginator #pagination [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 20, 50]"></app-paginator>
+
+<form [formGroup]="queryForm">
+
+	<input formControlName="fullName" type="text"  placeholder="Search by name">
+	<input formControlName="email" type="text"  placeholder="Search by email">
+	<!-- <input formControlName="website" type="text"  placeholder="Search by website domain"> -->
+	<select formControlName="website">
+    <option [value]="domain" *ngFor="let domain of domains">{{domain}}</option>
+  </select>
+	<button type="button" (click)="clearFilters()">clear filters</button>
+</form>
+<p>
+	<button type="button" (click)="manualFilter()">filter name and website</button>
+</p>

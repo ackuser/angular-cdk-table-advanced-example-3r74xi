@@ -1,0 +1,49 @@
+<ul class="pagination">
+	<li class="link" [ngClass]="{ 'disabled': pageIndex === 0 }" *ngIf="getNumberOfPages() > 1">
+		<a (click)="pageIndex > 0 && previousPage()" class="page-link prev-page">
+			<svg xmlns="http://www.w3.org/2000/svg" width="8" height="12" viewBox="0 0 8 12">
+				<g fill="none" fill-rule="evenodd">
+					<path fill="#33313C" d="M7.41 1.41L6 0 0 6l6 6 1.41-1.41L2.83 6z" class="nav-arrows"></path>
+				</g>
+			</svg>
+		</a>
+	</li>
+
+	<ng-container *ngFor="let pageNum of fetchPageNumbers() | fetchPages">
+
+		<li class="link" *ngIf="pageNum.page === false && pageNum.value === LEFT_PAGE">
+			<a class="page-link ellipsis">...</a>
+		</li>
+		<li [ngClass]="{'active': pageNum.value -1  === pageIndex }" *ngIf="pageNum.page === true">
+			<a (click)="setPage(pageNum.value -1 )" class="page-link">{{pageNum.value }}</a>
+		</li>
+
+		<li class="link" *ngIf="pageNum.page === false && pageNum.value === RIGHT_PAGE">
+			<a class="page-link ellipsis">...</a>
+		</li>
+	</ng-container>
+
+	<li class="link" *ngIf="hasNextPage()">
+		<a (click)="nextPage()" class="page-link next-page">
+			<svg xmlns="http://www.w3.org/2000/svg" width="8" height="12" viewBox="0 0 8 12">
+				<g fill="none" fill-rule="evenodd">
+					<path fill="#33313C" d="M7.41 1.41L6 0 0 6l6 6 1.41-1.41L2.83 6z" class="nav-arrows"></path>
+				</g>
+			</svg>
+		</a>
+	</li>
+</ul>
+<div class="description">
+	<div class="total-length">
+		<span class="total-length__text">rows:</span>
+		<span class="total-length__counter">{{length}}</span>
+	</div>
+	<div class="field has-addons">
+		<span class="control is-addon is-transparent">per page:</span>
+		<span class="select control">
+            <select (change)="changePageSize(select.value)" #select [(ngModel)]="selectedPageSize">
+                <option [value]="pageSize" *ngFor="let pageSize of pageSizeOptions">{{pageSize}}</option>
+            </select>
+        </span>
+	</div>
+</div>

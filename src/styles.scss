@@ -1,0 +1,14 @@
+body {
+  font-family: Roboto;
+}
+table {
+  width: 100%;
+  max-width: 100%;
+  border-spacing: 0;
+  border-collapse: collapse;
+
+  td,
+  th {
+    vertical-align: top;
+  }
+}
